@@ -16,6 +16,29 @@ export class App extends Component {
     name: '',
     number: '',
   };
+  addContact = ({ name, number }, reset) => {
+    if (this.checkContact(name)) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
+    const contact = {
+      id: nanoid(),
+      name,
+      number,
+    };
+    this.setState(({contacts}) => ({
+      contacts: [contact, ...contacts],
+    }));
+    reset();
+  };
+  checkContact = name => {
+    const { contacts } = this.state;
+    return contacts.find(contact => name === contact.name);
+  };
+
+  changeFilter = e => {
+    this.setState({ filter: e.currentTarget.value });
+  };
 
   handleChange = e => {
     const { name, value } = e.target;
